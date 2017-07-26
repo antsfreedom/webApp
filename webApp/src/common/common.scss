@@ -1,0 +1,19 @@
+
+@import 'mixins.scss';
+
+@media (-webkit-min-device-pixel-ratio: 2),(min-device-pixel-ratio: 2){
+  .tab{
+    &:after{
+      transform: scaleY(0.7)
+    }
+  }
+}
+
+@media (-webkit-min-device-pixel-ratio: 3),(min-device-pixel-ratio: 3){
+  .tab{
+    &:after{
+      transform: scaleY(0.5)
+    }
+  }
+}
+
