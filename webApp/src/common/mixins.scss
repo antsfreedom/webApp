@@ -1,4 +1,11 @@
 //移动端1px
+@mixin bgimgs($image) {
+  background-image: url($image + '@2x.png');
+  @media(-webkit-min-device-pixel-ratio:2),(-min-device-pixel-ratio:3){
+    background-image: url($image + '@3x.png');
+  }
+}
+
 
 @mixin border-1px($color){
   position:relative;
@@ -11,5 +18,16 @@
     height:1px;
     background: $color;
   }
-}
+};
+
+
+//省略号
+
+@mixin ellipses($line){
+  white-space: nowrap;   //1行内隐藏
+  overflow: hidden;
+  text-overflow: ellipsis;
+};
+
+
 
