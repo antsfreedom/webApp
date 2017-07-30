@@ -53,7 +53,7 @@ import iheader from "./components/header/header.vue";
     .tab-item{
       flex:1;
       text-align: center;
-      &>a{
+      &>router-link{
         display: block;
         height: 100%;
         font-size: 14px;

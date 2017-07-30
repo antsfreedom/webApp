@@ -23,7 +23,7 @@
 
 //省略号
 
-@mixin ellipses($line){
+@mixin ellipses{
   white-space: nowrap;   //1行内隐藏
   overflow: hidden;
   text-overflow: ellipsis;
