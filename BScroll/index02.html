@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title></title>
+	<link rel="stylesheet" href="">
+	<script src = bscroll.js></script>
+	<style type="text/css" media="screen">
+	*{
+		margin:0;
+		padding:0;
+	}
+		li{
+			list-style: none;
+			height:100px;
+		}
+		#box{
+			height: 100px;
+			overflow: hidden;
+		}
+	</style>
+	<script>
+		window.onload = function(){
+			var bs = new BScroll(document.getElementById('box'));
+			var obtn = document.getElementById('btn');
+			var but = obtn.getElementsByTagName('button');
+			var obox = document.getElementById('box');
+			var arrLi = obox.getElementsByTagName('li')
+
+			for(let i=0;i<but.length;i++){
+				but[i].onclick = function(){
+					bs.scrollToElement(arrLi[i],200)   //滚动
+				}
+			}
+			// but[0].onclick =function(){
+			// 	bs.scrollToElement(arrLi[0],200)
+			// }
+			// but[1].onclick =function(){
+			// 	bs.scrollToElement(arrLi[1],200)
+			// }
+			// but[2].onclick =function(){
+			// 	bs.scrollToElement(arrLi[2],200)
+			// }
+		}
+	</script>
+</head>
+<body>
+	<div id="btn">
+		<button>one</button>
+		<button>two</button>
+		<button>three</button>
+	</div>
+	<div id='box'>
+		<ul>
+			<li style="background: red">1</li>
+			<li style="background: orange">2</li>
+			<li style="background: green">3</li>
+		</ul>
+	</div>
+</body>
+</html>
