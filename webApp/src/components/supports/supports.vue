@@ -1,5 +1,5 @@
 <template>
-	<div class="supports">
+	<div class="supports" :class='className'>
 		<ul>
 			<li v-for='(item,index) in supports'>
 				<span class='icon' :class='classMap[supports[index].type]'></span>
@@ -18,6 +18,9 @@
 	 props:{
 	  supports:{
 	    return:Array
+	  },
+	  className:{
+	  	return:String
 	  }
 	},
 	created(){
@@ -32,7 +35,7 @@
 	@import '../../common/mixins.scss';
 	.supports{
 		li{			
-			font-size: 15px;
+			font-size: 10px;
 			color:#fff;
 			span{
 				display: inline-block;
@@ -60,10 +63,36 @@
 					vertical-align: top;
 					line-height: 12px;
 					font-weight: 200;
-					// font-size: 10px;
-
 				}			
 			}
 		}
+		&.diff{
+			li{	
+			margin-bottom:24px;		
+			font-size: 12px;
+			span{				
+				&.icon{
+				width:16px;
+				height:16px;
+				margin:0 6px 0 12px;
+					&.decrease{
+						@include bgimgs("decrease_2");
+					}
+					&.discount{
+						@include bgimgs("discount_2");
+					}
+					&.guarantee{
+						@include bgimgs("guarantee_2");
+					}
+					&.invoice{
+						@include bgimgs("invoice_2");
+					}
+					&.special{
+						@include bgimgs("special_2");
+					}			
+				}
+			}
+		}
 	}
+}
 </style>

@@ -6,7 +6,7 @@
       </div>
       <div class='content'>
         <span class='brand'></span>
-        <h3>{{seller.name}}</h3>
+        <h2>{{seller.name}}</h2>
         <p>{{seller.description}}/{{seller.deliveryTime}}分钟到达</p>
         <div class="supports-wrapper">
           <supports v-if='seller.supports' :supports ='seller.supports'></supports>
@@ -21,7 +21,7 @@
       </div>
     </div>
 
-    <div class='post'>
+    <div class='post' @click='showDetail'>
       <p>
         <span></span>{{seller.bulletin}}
       <i class='iconfont icon-keyboard_arrow_right'></i>
@@ -31,19 +31,34 @@
     <div class="bgimages">
       <img :src="seller.avatar" alt="">
     </div>
-
+    <!-- 遮罩 -->
     <transition name='fade'>
       <div class='bgdetail' v-show='detailShow' @click='closeDetail'>
         <div class='detail'>
           <div class='inner'>
             <div class='bgTitle'>{{seller.name}}</div>
-            <ul>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-            </ul>
+            <div class='star-wrapper'>
+              <star :star='seller.score' :size='24'></star>
+              <!-- <star :star='seller.score' :size='36'></star> -->
+            </div>
+            <div class='title'>
+              <div class='line'></div>
+              <div class='text'>优惠信息</div>
+              <div class='line'></div>
+            </div>
+            <div class="supports-wrapper">
+              <supports v-if='seller.supports' :supports ='seller.supports' :className='diff'></supports>
+            </div> 
+
+            <div class='title'>
+              <div class='line'></div>
+              <div class='text'>商家公告</div>
+              <div class='line'></div>
+            </div>
+            <!-- 商家公告内容 -->
+            <div class='bulletion'>
+              {{seller.bulletin}}
+            </div>
 
           </div>         
           <div class='close'>
@@ -57,6 +72,7 @@
 
 <script>
  import supports from '../supports/supports.vue';
+ import star from '../star/star.vue';
  // import demo from '../demo/demo.vue';
 export default {
   props:{
@@ -67,7 +83,8 @@ export default {
 
   data(){
     return{
-      detailShow:false
+      detailShow:false,
+      diff:'diff'
     }
   },
   methods:{
@@ -80,6 +97,7 @@ export default {
   },
   components:{
     supports:supports,
+    star:star
   }
 }
 </script>
@@ -92,7 +110,6 @@ export default {
       position:relative;
     .content-wrapper{
       box-sizing:border-box;
-      width:100%;
       padding:24px 0 18px 24px;
       color:#fff;
       font-size: 0;
@@ -118,7 +135,8 @@ export default {
           @include bgimgs('brand');
           background-size:100%;
         }
-        h3{
+        h2{
+          width:200px;
           font-size: 16px;
           margin-bottom: 8px;
         }
@@ -129,7 +147,7 @@ export default {
 
         .supports-wrapper{
           overflow: hidden;
-          height:14px;
+          height:13px;
         }
       }
     }
@@ -208,17 +226,37 @@ export default {
         backdrop-filter:blur(10px);
         color:#fff;
         .inner{
-          padding-bottom:128px;
+          // padding-bottom:128px;   //不论内容多少，都保留距离底部的距离
+          padding:0 36px 128px; 
           .bgTitle{
-            margin-top:60px;
+            margin-top:64px;
+            padding-bottom:16px;
             text-align: center;
             font-size: 16px;
             font-weight:700;
             line-height: 16px;
           }
-          li{
-            width:25%;
-             @include bgimgs('star24_off');
+          .title{
+            display: flex;
+            margin:28px 0 24px 0;
+            .line{
+              position:relative;
+              top:-7px;
+              flex:1;
+              border-bottom:1px solid rgba(255,255,255,.2);
+            }
+            .text{
+              padding:0 12px;
+              font-size:14px;
+              font-weight: 700;
+              line-height: 14px;
+            }
+          }
+          .bulletion{
+            padding:0 12px;
+            font-size: 12px;
+            font-weight: 200;
+            line-height: 24px;
           }
         }
         .close{
