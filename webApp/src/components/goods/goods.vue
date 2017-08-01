@@ -34,12 +34,15 @@
   			</li>
   		</ul>
   	</div>
-
+  	<div class='shop-wrapper'>
+  		<shop></shop> 		
+  	</div>
   </div>
 </template>
 
 <script>
 import BScroll from 'better-scroll';
+import shop from '../shop/shop.vue';
 export default {
   data(){
       return{
@@ -53,7 +56,7 @@ export default {
         this.goods = response.body.data;
         this.$nextTick(()=>{
         	this.initScroll();
-        	this.scrollHeight()
+        	this.scrollHeight();
         })
       });
 
@@ -87,7 +90,11 @@ export default {
 	    	console.log(this.listHeight);
     	},
 
-    	selectMenu(index){
+    	selectMenu(index,event){
+    		if(!event._constructed){
+    			return
+    		}
+    		console.log(event);
     		let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list');
     		let ele = foodList[index];
     		this.foodScroll.scrollToElement(ele,300)
@@ -104,8 +111,11 @@ export default {
     		}
     		return 0;
     	}
+    },
+    components:{
+    	shop:shop
     }
-}
+	}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -169,21 +179,21 @@ export default {
 					background:#f3f5f7;
 				}
 				.content-wrapper{
-					// padding:18px 18px 0;
-					padding:18px 0 0 18px;
+					display: flex;
+					margin:18px 18px 0;
+					padding-bottom:18px;
+					// @include border-1px(#000);
 					.pic{
-						// padding-right:10px;   
-						padding-right:5px;
-						display: inline-block;
+						padding-right:10px;
+						flex:0 0 58px;  
 						width:58px;
-						height:58px;
 						img{
 							width:100%;
 							color:rgb(147,153,159);
 						}
 					}
 					.content{
-						display: inline-block;
+						flex:1;
 						vertical-align: top;
 						margin-top:2px;
 						h2{
@@ -213,6 +223,12 @@ export default {
 					}
 				}
 			}
+		}
+		.shop-wrapper{
+			position:fixed;
+			bottom:0;
+			width:100%;
+			background:gray;
 		}
 	}
 </style>
