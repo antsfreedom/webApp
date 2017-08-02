@@ -14,13 +14,15 @@
         <router-link to='/seller'>商家</router-link>    
       </div>
     </div>
-    <router-view></router-view>
+    <router-view :seller='seller'></router-view>
+    <!-- <shop :delivery="seller.deliveryPrice" :price="seller.minPrice"></shop>   -->   
   </div>
 </template>
 
 
 <script>
 
+// import shop from './components/shop/shop.vue';
 import iheader from "./components/header/header.vue";
   export default {
     name: 'app',
@@ -37,7 +39,7 @@ import iheader from "./components/header/header.vue";
     },
 
     components:{
-      iheader:iheader,
+      iheader:iheader
     },
   }
 </script>

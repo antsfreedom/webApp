@@ -48,7 +48,7 @@ const leng = 5;   //定义星星数量
 	font-size:0;
 	.star-item{
 		display: inline-block;
-		margin-right:20px;
+		
 		width:24px;
 		height:24px;
 		background-size:cover;
@@ -58,6 +58,7 @@ const leng = 5;   //定义星星数量
 	}
 	&.type24{
 		.star-item{
+			margin-right:20px;
 			&.on{
 				@include bgimgs('star24_on');
 			}
@@ -72,8 +73,26 @@ const leng = 5;   //定义星星数量
 
 	&.type36{
 		.star-item{
-			width:30px;
-			height:30px;
+			width:15px;
+			height:15px;
+			margin-right:7px;
+			&.on{
+				@include bgimgs('star36_on');
+			}
+			&.half{
+				@include bgimgs('star36_half');
+			}
+			&.off{
+				@include bgimgs('star36_off');
+			}					
+		}
+	}
+
+	&.type12{
+		.star-item{
+			width:12px;
+			height:12px;
+			margin-right:3px;
 			&.on{
 				@include bgimgs('star36_on');
 			}

@@ -39,13 +39,13 @@
             <div class='bgTitle'>{{seller.name}}</div>
             <div class='star-wrapper'>
               <star :star='seller.score' :size='24'></star>
-              <!-- <star :star='seller.score' :size='36'></star> -->
             </div>
             <div class='title'>
               <div class='line'></div>
               <div class='text'>优惠信息</div>
               <div class='line'></div>
             </div>
+            <!-- 活动组件再次被调用 -->
             <div class="supports-wrapper">
               <supports v-if='seller.supports' :supports ='seller.supports' :className='diff'></supports>
             </div> 
@@ -59,8 +59,8 @@
             <div class='bulletion'>
               {{seller.bulletin}}
             </div>
-
-          </div>         
+          </div>
+          <!-- stick footer -->
           <div class='close'>
             <i class='iconfont icon-close'></i>
            </div> 
@@ -73,7 +73,6 @@
 <script>
  import supports from '../supports/supports.vue';
  import star from '../star/star.vue';
- // import demo from '../demo/demo.vue';
 export default {
   props:{
     seller:{
