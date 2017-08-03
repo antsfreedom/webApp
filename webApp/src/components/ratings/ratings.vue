@@ -39,7 +39,7 @@
     	</ul>
     </div>
     <div class='choose'>
-    	<i class='icon icon-check_circle'></i>
+    	<i class='icon icon-check_circle blue'></i>
     	<span>只看内容的评价</span>
     </div>
     <div class='satisf-wrapper'>
@@ -56,19 +56,30 @@
             </div>
             <span class='time'>{{item.deliveryTime}}分钟</span>
             <p class='text'>{{item.text}}</p>
+            <!-- 点赞 -->
             <div class='thumb'>
-            	<i class="icon icon-thumb_up"></i>
-            	<span class='icon icon-thumb_down' v-if="item.rateType<=3"></span>
+            	<i class="icon icon-thumb_up" v-if ="item.score>3" ></i>
+            	<span class='icon icon-thumb_down' v-else></span>
+	            <!-- 推荐 -->
+	            <ul>
+	            	<li v-for='list in item.recommend' v-show="list.length>4">
+	            		<span>{{list}}</span>
+	            	</li>
+	            </ul>
             </div>
     			</div>
     		</li>
     	</ul>
     </div>
+    <div class='shop-wrapper'>
+  		<shop :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop> 		
+  	</div>
   </div>
 </template>
 
 <script>
 import star from '../star/star.vue';
+import shop from '../shop/shop.vue';
 export default {
 	data(){
 		return {
@@ -86,13 +97,9 @@ export default {
 		})
 	},
 
-	// methods:{
-	// 	item.rateType = 1;
-	// 	icon-thumb_up
-	// }
-
   components:{
   	star,
+  	shop
   }
 }
 </script>
@@ -188,15 +195,15 @@ export default {
  	}
 
  	.choose{
- 		padding-top:18px;
- 		padding-left:18px;
- 		padding-bottom:18px;
- 		line-height: 50px;
+ 		padding:18px 0 18px 18px;
  		@include border-1px(#ccc);
  		i{
  			display: inline-block;
  			font-size: 20px;
  			color:#bbb;
+ 			&.blue{
+ 				color:#00a0dc;
+ 			}
  		}
  		span{
  			display: inline-block;
@@ -204,6 +211,7 @@ export default {
  		}
  	}
  	.satisf-wrapper{
+ 		margin-bottom:48px;
  		ul{
  			margin:0 18px;
 	 		.satisf-list{
@@ -248,6 +256,7 @@ export default {
 		 				color:rgb(7,17,27);
 		 			}
 		 			.thumb{
+		 				display: inline-block;
 			 			i{
 			 				line-height: 16px;
 			 				font-size: 12px;
@@ -259,12 +268,34 @@ export default {
 			 				color:rgb(183,187,191);
 			 				line-height: 16px;
 
-			 			} 				
+			 			}
+			 			ul{
+			 				font-size:0;
+			 				margin-top:-11px;
+				 			li{
+				 				display: inline-block;
+				 				margin-right: 8px;
+				 				span{
+				 					padding:0 6px;
+				 					border:1px solid #ccc;
+				 					border-radius:2px;
+				 					font-size: 9px;
+				 					color:rgb(147,153,159);
+				 					line-height: 16px;
+
+				 				}
+				 			}			 				
+			 			}
 		 			}
 		 		}
 	 		}			
  		}
  	}
+	.shop-wrapper{
+		position:fixed;
+		bottom:0;
+		width:100%;
+	}
 }
 
 </style>

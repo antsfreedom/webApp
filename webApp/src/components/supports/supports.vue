@@ -94,5 +94,41 @@
 			}
 		}
 	}
+	&.big{
+		li{	
+			margin:0 18px;
+			padding:16px 0;	
+			line-height: 16px;
+			font-size: 12px;
+			color:rgb(7,17,27);
+			@include border-1px(#eee);
+			span{				
+				&.icon{
+				width:16px;
+				height:16px;
+				margin-left:12px;
+				margin-right:6px;
+					&.decrease{
+						@include bgimgs("decrease_3");
+					}
+					&.discount{
+						@include bgimgs("discount_3");
+					}
+					&.invoice{
+						@include bgimgs("invoice_3");
+					}
+					&.special{
+						@include bgimgs("special_3");
+					}
+					&.guarantee{
+						@include bgimgs("guarantee_3");
+					}		
+				}
+			}
+		}
+		li:last-child{
+			@include border-1px(#fff);
+		}
+	}
 }
 </style>
