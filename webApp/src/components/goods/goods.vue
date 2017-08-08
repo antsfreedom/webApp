@@ -4,7 +4,7 @@
   	<div class='menu-wrapper' ref='menuWrapper'>
   		<ul>
   			<li v-for='(item,index) in goods' class='food-item' :class="{'current':currentIndex === index}" @click = 'selectMenu(index,$event)'>
-  				<span class='text border-1px' >
+  				<span class='text border1px' >
   					<i class='icon' v-if='item.type>0' :class=classMap[item.type]></i>
   					{{item.name}}  					
   				</span>
@@ -17,7 +17,7 @@
   			<li v-for='item in goods' class='item-list food-list' >
   				<h2 class='title'>{{item.name}}</h2>
   				<ul>
-  					<li v-for='food in item.foods' class='content-wrapper'>
+  					<li v-for='food in item.foods' class='content-wrapper' @click = "choiceFood(food,$event)">
   						<div class='pic'>
   							<img :src='food.icon'></img>  							
   						</div>
@@ -30,7 +30,7 @@
   								￥{{food.price}}
   							</div>
 								<div class='control-wrapper'>
-								 	<control :food='food'></control>			 								
+								 	<control :food='food'></control>		
 								</div>							 							
   						</div>
   					</li>
@@ -41,6 +41,10 @@
   	<div class='shop-wrapper'>
   		<shop :selectFoods="selectFoods" :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop> 		
   	</div>
+  	<!-- food详情页 -->
+  	<div class="food-wrapper" >
+  		<food :food="chooseFood" ref="food"></food>
+  	</div>
   </div>
 </template>
 
@@ -48,13 +52,15 @@
 import BScroll from 'better-scroll';
 import shop from '../shop/shop.vue';
 import control from '../control/control.vue';
+import food from "../food/food.vue";
 export default {
   data(){
     return{
       // goods:Array,
       goods:[],
       listHeight:[],
-      scrollY:0
+      scrollY:0,
+      chooseFood:{}
     }
   },
 
@@ -107,12 +113,22 @@ export default {
     		if(!event._constructed){
     			return
     		}
-    		console.log(event);
+    		// console.log(event);
     		let foodList = this.$refs.foodWrapper.getElementsByClassName('food-list');
     		let ele = foodList[index];
     		this.foodScroll.scrollToElement(ele,300)
+    	},
+    	//food页面
+    	choiceFood(food,event){
+    		if(!event._constructed){
+    			return
+    		}
+    		// console.log(food.name)
+    		this.chooseFood = food;
+    		this.$refs.food.show();
     	}
     },
+
     computed:{
     	currentIndex(){
     		for(let i=0;i<this.listHeight.length;i++){
@@ -135,12 +151,13 @@ export default {
     			})
     		})
     		return foodList
-    	}
-
+    	},
     },
+    //创建组件
     components:{
     	shop:shop,
-    	control:control
+    	control:control,
+    	food
     }
 	}
 </script>
@@ -262,6 +279,13 @@ export default {
 			bottom:0;
 			width:100%;
 			background:gray;
+		}
+		.food-wrapper{
+			position:fixed;
+			top:0;
+			left:0;
+			// width:100%;
+			// height: 100%;
 		}
 	}
 </style>

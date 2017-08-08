@@ -1,7 +1,7 @@
 <template>
 	<div class='control'>
 	<!-- 减少-->
-		<div class="remove" v-show = 'food.count' @click='remove($event)'>
+		<div class="remove" v-show = 'food.count' @click.stop.prevent='remove($event)'>
 			<i class="icon icon-remove_circle_outline"></i>
 		</div>
 		<!-- 购买数量 -->
@@ -9,7 +9,7 @@
 			{{food.count}}
 		</div>
 		<!-- 添加 -->
-		<div class='add' @click = 'add($event)' >
+		<div class='add' @click.stop.prevent = 'add($event)' >
 			<i class="icon icon icon-add_circle"></i>
 		</div>
 	</div>
