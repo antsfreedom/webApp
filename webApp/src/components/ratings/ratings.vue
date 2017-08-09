@@ -18,7 +18,7 @@
             <span class='scores'>4.3</span>
     			</li>
     			<li>
-    				<span>服务态度</span>
+    				<span>商品评分</span>
     				<div class='star-wrapper'>
               <star :star='seller.score' :size='36'></star>
             </div>
@@ -28,33 +28,33 @@
     		</ul>
     	</div>
     </div>
-    <div class='gap'>
-    	
-    </div>
+    <div class='gap'></div>
     <div class='approve'>
-    	<ul>
+    	<ul class="border1px">
     		<li>全部57</li>
     		<li>满意47</li>
     		<li>不满意10</li>
     	</ul>
     </div>
-    <div class='choose'>
-    	<i class='icon icon-check_circle blue'></i>
+    <div class='choose border1px'>
+    	<i class='icon icon-check_circle'  @click="show"  :class ="{blue:isActive}"></i>
     	<span>只看内容的评价</span>
     </div>
     <div class='satisf-wrapper'>
     	<ul>
-    		<li  class='satisf-list' v-for='item in ratings'>
+    		<li  class='satisf-list border1px' v-for='item in ratings' v-if="item.text">
     			<div class='pic'>
     				<img :src="item.avatar" alt="">
     			</div>
     			<div class="content">
-    				<div class='user'>{{item.username}}<span>2016-07-13 20:00</span></div>
+    				<div class='user'>{{item.username}}
+    					<span>{{item.rateTime}}</span>
+    				</div>
     				
     				<div class='star-wrapper'>
               <star :star='item.score' :size='12'></star>
             </div>
-            <span class='time'>{{item.deliveryTime}}分钟</span>
+            <span class='time' v-show = "item.deliveryTime">{{item.deliveryTime}}分钟</span>
             <p class='text'>{{item.text}}</p>
             <!-- 点赞 -->
             <div class='thumb'>
@@ -83,7 +83,9 @@ import shop from '../shop/shop.vue';
 export default {
 	data(){
 		return {
-			ratings:[]
+			ratings:[],
+			isActive:false,
+
 		}
 	},
 	props:{
@@ -95,6 +97,21 @@ export default {
 		this.$http.get('/api/ratings').then(response=>{
 			this.ratings = response.body.data;
 		})
+	},
+
+	methods:{
+		show(){
+			this.isActive = !this.isActive
+			if(this.isActive){
+				
+			}
+		},
+
+		// filters: {
+  //     formatDate(time) {
+  //     	let date = new Date(time);
+  //     	return formatDate(date, 'yyyy-MM-dd hh:mm');
+  // 	}
 	},
 
   components:{
@@ -200,10 +217,10 @@ export default {
  		i{
  			display: inline-block;
  			font-size: 20px;
- 			color:#bbb;
- 			&.blue{
- 				color:#00a0dc;
- 			}
+ 			color:#bbb;			
+ 		}
+ 		.blue{
+ 			color:#00a0dc;
  		}
  		span{
  			display: inline-block;

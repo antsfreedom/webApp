@@ -18,7 +18,7 @@
 				</div>
 			</div>
 			<transition name="fold">
-				<div class="shop-list" v-show ="fold"> 
+				<div class="shop-list" v-show ="listShow"> 
 					<div class="shop-header">
 						<h1 class="title">购物车</h1>
 						<span class="empty" @click = "empty">清空</span>
@@ -41,7 +41,7 @@
 			</transition>	
 		</div>
 		<transition name="fade">
-    	<div class="list-mask" v-show="fold" @click="hideList"></div>  
+    	<div class="list-mask" v-show="listShow" @click="hideList"></div>  
     </transition>
 	</div>
 </template>
@@ -52,7 +52,7 @@ import control from '../control/control.vue';
 	export default{
 		data(){
 			return{
-				fold:false
+				fold:true
 			}	
 		},
 		props:{
@@ -100,7 +100,16 @@ import control from '../control/control.vue';
 				}else{
 					return '去结算'
 				}
+			},
+			listShow(){
+				if(!this.totalCount){
+					this.fold = true
+					return false;
+				}
+				let show = !this.fold;
+				return show
 			}
+
 		},
 
 		methods:{
@@ -123,11 +132,10 @@ import control from '../control/control.vue';
 			empty(){
 				this.selectFoods.forEach((item)=>{
 					item.count=0;
-					this.fold = false
 				})
 			},
 			hideList(){
-				this.fold = false
+				this.fold = true
 			}
 		},
 		components:{
