@@ -1,71 +1,73 @@
 <template>
-  <div class='seller'>
-   	<div class='seller-wrapper'>
-   		<div class="seller-name">
-   			<h3>{{seller.name}}</h3>
-   			 <div class='desc'>
-	   			<div class='star-wrapper'>
-	          <star :star='seller.score' :size='36'></star>
-	         </div>	        
-	         <span>(661)</span>
-	         <span class="count">月售{{seller.sellCount}}单</span>
-         </div>
-         <div class='collect' >
-         	<i class='icon icon-favorite'  :class="{active:isActive}" @click="change"></i>
-         	<span v-text='text'>收藏</span>
-         </div>
-   		</div>
-   		<div class='price'>
-   			<ul>
-   				<li>
-   					<div>起送价</div>
-   					<span class='minPrice'>{{seller.minPrice}}</span>
-   					<span>元</span>
-   				</li>
-   				<li>
-   					<div>商家配送</div>
-   					<span class='minPrice'>{{seller.deliveryPrice}}</span>
-   					<span>元</span>
-   				</li>
-   				<li>
-   					<div>平均配送时间</div>
-   					<span class='minPrice'>{{seller.deliveryTime}}</span>
-   					<span>分钟</span>
-   				</li>
-   			</ul>
-   		</div>
-   	</div>
-   	<div class='gap'></div>
-   	<div class='bulletin'>
-   		<h3>公告与活动</h3>
-   		<p>{{seller.bulletin}}</p>
-   	</div>
+  <div class='seller' ref ="sellers">
+  	<div>
+	   	<div class='seller-wrapper'>
+	   		<div class="seller-name border1px">
+	   			<h3>{{seller.name}}</h3>
+	   			 <div class='desc'>
+		   			<div class='star-wrapper'>
+		          <star :star='seller.score' :size='36'></star>
+		         </div>	        
+		         <span>(661)</span>
+		         <span class="count">月售{{seller.sellCount}}单</span>
+	         </div>
+	         <div class='collect' >
+	         	<i class='icon icon-favorite'  :class="{active:isActive}" @click="change"></i>
+	         	<span v-text='text'>收藏</span>
+	         </div>
+	   		</div>
+	   		<div class='price'>
+	   			<ul>
+	   				<li>
+	   					<div>起送价</div>
+	   					<span class='minPrice'>{{seller.minPrice}}</span>
+	   					<span>元</span>
+	   				</li>
+	   				<li>
+	   					<div>商家配送</div>
+	   					<span class='minPrice'>{{seller.deliveryPrice}}</span>
+	   					<span>元</span>
+	   				</li>
+	   				<li>
+	   					<div>平均配送时间</div>
+	   					<span class='minPrice'>{{seller.deliveryTime}}</span>
+	   					<span>分钟</span>
+	   				</li>
+	   			</ul>
+	   		</div>
+	   	</div>
+	   	<div class='gap'></div>
+	   	<div class='bulletin border1px'>
+	   		<h3>公告与活动</h3>
+	   		<p>{{seller.bulletin}}</p>
+	   	</div>
 
-   	<div class="supports-wrapper">
-      <supports v-if='seller.supports' :supports ='seller.supports' :className="big"></supports>
-    </div>
-    <div class=gap></div>
-    <div class='scene'>
-    	<h3>商家实景</h3>
-    	<div class = "pics" ref="picWrapper">
-	    	<ul ref="picWidth">
-	    		<li v-for='(item,index) in seller.pics'><img :src="seller.pics[index]" alt=""></li>
-	    	</ul>    		
-    	</div>
-    </div>
-    <div class='gap'></div>
-    <div class='message'>
-    	<h3>商家信息</h3>
-    	<ul>
-    		<li v-for='item in seller.infos'>
-    			<span>{{item}}</span>
-    		</li>
-    	</ul>
-	  </div>
+	   	<div class="supports-wrapper">
+	      <supports v-if='seller.supports' :supports ='seller.supports' :className="big"></supports>
+	    </div>
+	    <div class=gap></div>
+	    <div class='scene'>
+	    	<h3>商家实景</h3>
+	    	<div class = "pics" ref="picWrapper">
+		    	<ul ref="picWidth">
+		    		<li v-for='(item,index) in seller.pics'><img :src="seller.pics[index]" alt=""></li>
+		    	</ul>    		
+	    	</div>
+	    </div>
+	    <div class='gap'></div>
+	    <div class='message'>
+	    	<h3 class="border1px">商家信息</h3>
+	    	<ul>
+	    		<li v-for='item in seller.infos' class="border1px">
+	    			<span>{{item}}</span>
+	    		</li>
+	    	</ul>
+		  </div>
+		</div>
     <div class='shop-wrapper'>
-  		<shop :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop> 		
+  		<shop :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop>
   	</div>
-    </div>
+  </div>
 </template>
 
 <script>
@@ -74,7 +76,6 @@ import star from '../star/star.vue';
 import supports from '../supports/supports.vue';
 import shop from '../shop/shop.vue';
 export default {
-
 	data(){
 		return{
 			big:'big',
@@ -92,6 +93,7 @@ export default {
   		this._scroll();
   	}
   },
+
   methods:{
   	_scroll(){
   		if(this.seller.pics){
@@ -100,9 +102,14 @@ export default {
   			let outerWidth = (picWidth+picMargin)*this.seller.pics.length - picMargin + 'px';
   			this.$refs.picWidth.style.width = outerWidth;
 
-  			this.picScroll = new BScroll(this.$refs.picWrapper,{
+  			this.$nextTick(()=>{
+  				this.scrollX = new BScroll(this.$refs.picWrapper,{
   				scrollX: true,
+  				})
   			})
+  			// this.picScroll = new BScroll(this.$refs.picWrapper,{
+  			// 	scrollX: true,
+  			// })
   		}
   	},
   	change(){
@@ -112,7 +119,7 @@ export default {
   		}else{
   			this.text = '收藏'
   		}
-  	}
+  	},
   },
   components:{
   	star,

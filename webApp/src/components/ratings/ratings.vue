@@ -1,93 +1,98 @@
 <template>
-  <div class='ratings'>
-    <div class="mark-wrapper">
-    	<div class='score'>
-    		<div class='mark'>
-    		<span class='num'>3.9</span>
-    		<span class='title'>综合评分</span>
-    		<span class="desc">高于周边商家</span></div>
-    	</div>
+  <div class='ratings' ref="ratings">
+  	<div> 
+	    <div class="mark-wrapper">
+	    	<div class='score'>
+	    		<div class='mark'>
+	    		<span class='num'>3.9</span>
+	    		<span class='title'>综合评分</span>
+	    		<span class="desc">高于周边商家</span></div>
+	    	</div>
 
-    	<div class='markStar'>
-    		<ul>
-    			<li>
-    				<span>服务态度</span>
-    				<div class='star-wrapper'>
-              <star :star='seller.score' :size='36'></star>
-            </div>
-            <span class='scores'>4.3</span>
-    			</li>
-    			<li>
-    				<span>商品评分</span>
-    				<div class='star-wrapper'>
-              <star :star='seller.score' :size='36'></star>
-            </div>
-            <span class='scores'>3.9</span>
-    			</li>
-    			<li><span>送达时间</span> 40分钟</li>
-    		</ul>
-    	</div>
-    </div>
-    <div class='gap'></div>
-    <div class='approve'>
-    	<ul class="border1px">
-    		<li>全部57</li>
-    		<li>满意47</li>
-    		<li>不满意10</li>
-    	</ul>
-    </div>
-    <div class='choose border1px'>
-    	<i class='icon icon-check_circle'  @click="show"  :class ="{blue:isActive}"></i>
-    	<span>只看内容的评价</span>
-    </div>
-    <div class='satisf-wrapper'>
-    	<ul>
-    		<li  class='satisf-list border1px' v-for='item in ratings' v-if="item.text">
-    			<div class='pic'>
-    				<img :src="item.avatar" alt="">
-    			</div>
-    			<div class="content">
-    				<div class='user'>{{item.username}}
-    					<span>{{item.rateTime}}</span>
-    				</div>
-    				
-    				<div class='star-wrapper'>
-              <star :star='item.score' :size='12'></star>
-            </div>
-            <span class='time' v-show = "item.deliveryTime">{{item.deliveryTime}}分钟</span>
-            <p class='text'>{{item.text}}</p>
-            <!-- 点赞 -->
-            <div class='thumb'>
-            	<i class="icon icon-thumb_up" v-if ="item.score>3" ></i>
-            	<span class='icon icon-thumb_down' v-else></span>
-	            <!-- 推荐 -->
-	            <ul>
-	            	<li v-for='list in item.recommend' v-show="list.length>4">
-	            		<span>{{list}}</span>
-	            	</li>
-	            </ul>
-            </div>
-    			</div>
-    		</li>
-    	</ul>
-    </div>
+	    	<div class='markStar'>
+	    		<ul>
+	    			<li>
+	    				<span>服务态度</span>
+	    				<div class='star-wrapper'>
+	              <star :star='seller.score' :size='36'></star>
+	            </div>
+	            <span class='scores'>4.3</span>
+	    			</li>
+	    			<li>
+	    				<span>商品评分</span>
+	    				<div class='star-wrapper'>
+	              <star :star='seller.score' :size='36'></star>
+	            </div>
+	            <span class='scores'>3.9</span>
+	    			</li>
+	    			<li><span>送达时间</span> 40分钟</li>
+	    		</ul>
+	    	</div>
+	    </div>
+	    <div class='gap'></div>
+	    <!-- 组件 -->
+	    <div class="ratingSelect-wrapper">
+				<ratingSelect :desc="desc" :ratings="ratings" :selectType="selectType" :onlyContent="onlyContent"></ratingSelect>						
+			</div>
+
+			<!-- 评价内容 -->
+	    <div class='satisf-wrapper'>
+	    	<ul>
+	    		<li class='satisf-list border1px' v-for='item in ratings' v-show = needShow(item.rateType,item.text)>
+	    			<div class='pic'>
+	    				<img :src="item.avatar" alt="">
+	    			</div>
+	    			<div class="content">
+	    				<div class='user'>{{item.username}}
+	    					<span>{{formate(item.rateTime)}}</span>
+	    				</div>
+	    				
+	    				<div class='star-wrapper'>
+	              <star :star='item.score' :size='12'></star>
+	            </div>
+	            <span class='time' v-show = "item.deliveryTime">{{item.deliveryTime}}分钟</span>
+	            <p class='text'>{{item.text}}</p>
+	            <!-- 点赞 -->
+	            <div class='thumb'>
+	            	<i class="icon icon-thumb_up" v-if ="item.score>3" ></i>
+	            	<span class='icon icon-thumb_down' v-else></span>
+		            <!-- 推荐 -->
+		            <ul>
+		            	<li v-for='list in item.recommend' v-show="list.length>4">
+		            		<span>{{list}}</span>
+		            	</li>
+		            </ul>
+	            </div>
+	    			</div>
+	    		</li>
+	    	</ul>
+	    </div>
+	  </div>
     <div class='shop-wrapper'>
-  		<shop :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop> 		
-  	</div>
+  		<shop :delivery="seller.deliveryPrice" :minPrice="seller.minPrice"></shop>
+  	</div>	
   </div>
 </template>
 
 <script>
 import star from '../star/star.vue';
 import shop from '../shop/shop.vue';
+import BScroll from 'better-scroll';
+import ratingSelect from "../ratingSelect/ratingSelect.vue"
 export default {
 	data(){
 		return {
 			ratings:[],
 			isActive:false,
-
+			selectType:2,
+			onlyContent:false,
+			desc:{
+				all:'全部',
+				positive:"满意",
+				nagetive:"不满意"
 		}
-	},
+	}
+},
 	props:{
   	seller:{
   		return:Object
@@ -96,27 +101,60 @@ export default {
 	created(){
 		this.$http.get('/api/ratings').then(response=>{
 			this.ratings = response.body.data;
-		})
+			this.$nextTick(()=>{
+				this.scroll = new BScroll(this.$refs.ratings,{
+					click:true
+				})			
+			})
+		});
 	},
 
 	methods:{
 		show(){
 			this.isActive = !this.isActive
-			if(this.isActive){
-				
+			if(this.isActive){				
 			}
 		},
+		needShow(type,text){
+			if(this.onlyContent&&!text){
+				return false
+			}
+			if(this.selectType==2){
+				return true
+			}else{
+				return type === this.selectType;
+			}
 
-		// filters: {
-  //     formatDate(time) {
-  //     	let date = new Date(time);
-  //     	return formatDate(date, 'yyyy-MM-dd hh:mm');
-  // 	}
+		},
+		//时间转换
+		formate(date){
+			var date = new Date(date);//如果date为13位不需要乘1000
+			var Y = date.getFullYear() + '-';
+		  var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+		  var D = (date.getDate() < 10 ? '0' + (date.getDate()) : date.getDate()) + ' ';
+		  var h = (date.getHours() < 10 ? '0' + date.getHours() : date.getHours()) + ':';
+		  var m = (date.getMinutes() <10 ? '0' + date.getMinutes() : date.getMinutes()) + ':';
+		  var s = (date.getSeconds() <10 ? '0' + date.getSeconds() : date.getSeconds());
+		  return Y+M+D+h+m+s;
+		}
 	},
 
+	watch:{
+		'selectType'(type){
+			this.$nextTick(()=>{
+				this.scroll.refresh();
+			})
+		},
+		'onlyContent'(onlyContent){
+			this.$nextTick(()=>{
+				this.scroll.refresh();
+			})
+		}
+	},
   components:{
   	star,
-  	shop
+  	shop,
+  	ratingSelect
   }
 }
 </script>
@@ -125,6 +163,11 @@ export default {
 <style scoped lang='scss' scoped>
 @import '../../common/mixins.scss';
  .ratings{
+ 	position:fixed;
+ 	top:180px;
+ 	bottom:0;
+ 	width:100%;
+ 	overflow: hidden;
  	.mark-wrapper{
  		display: flex;
  		.score{
@@ -186,46 +229,8 @@ export default {
  		height: 30px;
  		background: #eee;
  	}
- 	.approve{
- 		ul{
- 			margin:18px 18px auto 18px;
- 			padding-bottom:18px;
- 			font-size: 0;
- 			@include border-1px(#ddd);
- 			li{
- 				display: inline-block;
- 				margin-right: 10px;
- 				font-size: 16px;
- 				padding:13px 10px;
- 				background:blue;
- 			}
- 			li:first-child{
- 				background:#00a0dc;
- 			}
- 			li:nth-child(2){
- 				background:#ccecf8;
- 			}
- 			li:last-child{
- 				background:#e9ebec;
- 			}
- 		}
- 	}
-
- 	.choose{
- 		padding:18px 0 18px 18px;
- 		@include border-1px(#ccc);
- 		i{
- 			display: inline-block;
- 			font-size: 20px;
- 			color:#bbb;			
- 		}
- 		.blue{
- 			color:#00a0dc;
- 		}
- 		span{
- 			display: inline-block;
- 			color:#bbb;
- 		}
+ 	.ratingSelect-wrapper{
+ 		margin-left:18px;
  	}
  	.satisf-wrapper{
  		margin-bottom:48px;
