@@ -32,7 +32,7 @@ import iheader from "./components/header/header.vue";
       };
     },
     created(){
-      this.$http.get('/api/seller').then(response=>{
+      this.$http.get('api/seller').then(response=>{
         this.seller = response.body.seller;        //seller接收数据
         // console.log(this.seller.seller)
       });
